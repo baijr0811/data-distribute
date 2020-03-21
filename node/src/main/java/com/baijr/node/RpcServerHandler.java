@@ -16,8 +16,6 @@ import java.util.Map;
 /**
  * RPC 服务端处理器（用于处理 RPC 请求）
  *
- * @author huangyong
- * @since 1.0.0
  */
 public class RpcServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
