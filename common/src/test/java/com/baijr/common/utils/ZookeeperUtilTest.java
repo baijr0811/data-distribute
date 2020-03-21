@@ -75,15 +75,29 @@ public class ZookeeperUtilTest {
 
     @Test
     public void TestUpdateNode() throws KeeperException, InterruptedException {
-        // 创建一个子目录节点
-        if (ZookeeperUtil.getZookeeper().exists("/node/sub1", true) == null) {
-            ZookeeperUtil.getZookeeper().create("/node/sub1", "sub1".getBytes(),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-            System.out.println("创建一个子目录节点:create /node/sub1 sub1");
-            // 查看node节点
-            System.out.println("查看node节点:ls /node => "
-                    + ZookeeperUtil.getZookeeper().getChildren("/node", true));
+        /**
+         *  修改节点数据
+         *  修改的数据会覆盖上次所设置的数据
+         *  setData()方法参数一、参数二不多说，与上面类似。
+         *  参数三：数值型。需要传入该界面的数值类型版本号！！！
+         *      该信息可以通过Stat类获取，也可以通过命令行获取。
+         *      如果该值设置为-1，就是忽视版本匹配，直接设置节点保存的值。
+         */
+        if (ZookeeperUtil.getZookeeper().exists("/node", true) != null) {
+            ZookeeperUtil.getZookeeper().setData("/node", "changed".getBytes(), -1);
+            // 查看/node节点数据
+            System.out.println("修改节点数据:get /node => "
+                    + new String(ZookeeperUtil.getZookeeper().getData("/node", false, null)));
         }
+        System.out.println("*******************************************************");
+        // 删除节点
+        if (ZookeeperUtil.getZookeeper().exists("/node/sub1", true) != null) {
+            ZookeeperUtil.getZookeeper().delete("/node/sub1", -1);
+            ZookeeperUtil.getZookeeper().delete("/node", -1);
+            // 查看根节点
+            System.out.println("删除节点:ls / => " + ZookeeperUtil.getZookeeper().getChildren("/", true));
+        }
+
     }
 
 
