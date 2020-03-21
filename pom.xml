@@ -18,6 +18,10 @@
     <properties>
         <version.commons-collections>4.0</version.commons-collections>
         <version.zookeeper>3.4.14</version.zookeeper>
+        <version.spring>4.1.5.RELEASE</version.spring>
+        <version.commons-lang>3.3.2</version.commons-lang>
+        <version.com.dyuproject.protostuff>1.0.8</version.com.dyuproject.protostuff>
+        <version.objenesis>2.1</version.objenesis>
     </properties>
     <dependencies>
         <!-- JUnit -->
@@ -41,6 +45,47 @@
             <artifactId>zookeeper</artifactId>
             <version>${version.zookeeper}</version>
         </dependency>
+
+        <!-- Netty -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.42.Final</version>
+        </dependency>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${version.spring}</version>
+        </dependency>
+
+        <!-- Apache Commons Lang -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${version.commons-lang}</version>
+        </dependency>
+
+        <!-- Protostuff -->
+        <dependency>
+            <groupId>com.dyuproject.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+            <version>${version.com.dyuproject.protostuff}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dyuproject.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+            <version>${version.com.dyuproject.protostuff}</version>
+        </dependency>
+
+        <!-- Objenesis -->
+        <dependency>
+            <groupId>org.objenesis</groupId>
+            <artifactId>objenesis</artifactId>
+            <version>${version.objenesis}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -49,8 +94,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
