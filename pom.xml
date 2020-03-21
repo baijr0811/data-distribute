@@ -15,6 +15,10 @@
     </modules>
 
 
+    <properties>
+        <version.commons-collections>4.0</version.commons-collections>
+        <version.zookeeper>3.4.14</version.zookeeper>
+    </properties>
     <dependencies>
         <!-- JUnit -->
         <dependency>
@@ -24,12 +28,31 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Apache Commons Collections -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${version.commons-collections}</version>
+        </dependency>
 
         <!-- ZooKeeper -->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
-            <version>3.4.14</version>
+            <version>${version.zookeeper}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

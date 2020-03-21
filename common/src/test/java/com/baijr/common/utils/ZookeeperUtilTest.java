@@ -10,7 +10,7 @@ public class ZookeeperUtilTest {
 
     @Test
     public void TestCreateNode() throws KeeperException, InterruptedException {
-
+        ZookeeperUtil.init(new TestWatcher());
         if (ZookeeperUtil.getZookeeper().exists("/node", false) == null) {
 
             /**
@@ -36,7 +36,7 @@ public class ZookeeperUtilTest {
              *          区别在于，第二个类型所创建的临时型节点名后面会有一个单调递增的数值。
              * 最后create()方法的返回值是创建的节点的实际路径
              */
-            ZookeeperUtil.getZookeeper().create("/node", "node".getBytes(), ZooDefs.Ids.CREATOR_ALL_ACL, CreateMode.PERSISTENT);
+            ZookeeperUtil.getZookeeper().create("/node", "node".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 
 
             /*  查看/node节点数据，这里应该输出"conan"
@@ -48,28 +48,36 @@ public class ZookeeperUtilTest {
                     + new String(ZookeeperUtil.getZookeeper().getData("/node", false, null)));
 
 
-            /**
-             * 查看根节点
-             * 在此查看根节点的值，这里应该输出上面所创建的/node节点
-             */
-            System.out.println("查看根节点:ls / => " + ZookeeperUtil.getZookeeper().getChildren("/", true));
+
         }
-
-
+        /**
+         * 查看根节点
+         * 在此查看根节点的值，这里应该输出上面所创建的/node节点
+         */
+        System.out.println("查看根节点: => " + ZookeeperUtil.getZookeeper().getChildren("/", true));
+        ZookeeperUtil.closeConnect();
     }
 
 
     @Test
     public void TestChildNode() throws KeeperException, InterruptedException {
         // 创建一个子目录节点
+        ZookeeperUtil.init(new TestWatcher());
         if (ZookeeperUtil.getZookeeper().exists("/node/sub1", true) == null) {
             ZookeeperUtil.getZookeeper().create("/node/sub1", "sub1".getBytes(),
                     ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-            System.out.println("创建一个子目录节点:create /node/sub1 sub1");
-            // 查看node节点
-            System.out.println("查看node节点:ls /node => "
-                    + ZookeeperUtil.getZookeeper().getChildren("/node", true));
+
         }
+        if (ZookeeperUtil.getZookeeper().exists("/node/sub2", true) == null) {
+            ZookeeperUtil.getZookeeper().create("/node/sub2", "sub2".getBytes(),
+                    ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+
+        }
+
+        // 查看node节点
+        System.out.println("查看node节点: node => "
+                + ZookeeperUtil.getZookeeper().getChildren("/node", true));
+        ZookeeperUtil.closeConnect();
     }
 
 
@@ -83,6 +91,7 @@ public class ZookeeperUtilTest {
          *      该信息可以通过Stat类获取，也可以通过命令行获取。
          *      如果该值设置为-1，就是忽视版本匹配，直接设置节点保存的值。
          */
+        ZookeeperUtil.init(new TestWatcher());
         if (ZookeeperUtil.getZookeeper().exists("/node", true) != null) {
             ZookeeperUtil.getZookeeper().setData("/node", "changed".getBytes(), -1);
             // 查看/node节点数据
@@ -98,6 +107,7 @@ public class ZookeeperUtilTest {
             System.out.println("删除节点:ls / => " + ZookeeperUtil.getZookeeper().getChildren("/", true));
         }
 
+        ZookeeperUtil.closeConnect();
     }
 
 
